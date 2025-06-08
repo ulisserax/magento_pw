@@ -33,7 +33,6 @@ test.describe("Home Page Tests", () => {
     homePage,
   }) => {
     const expectedTitle = "Hot Sellers";
-    await homePage.assertHotSellersTitle(expectedTitle);
     await expect(homePage.hotSellersTitle).toHaveText(expectedTitle, {
       timeout: 5000,
     });
@@ -52,10 +51,7 @@ test.describe("Home Page Tests", () => {
   });
 
   test("should have the correct header names", async ({ homePage }) => {
-    await homePage.assertHeaderText(expectedHeaderItems);
-    const actualHeaderItems = await homePage.headerText.allTextContents();
-    expect(actualHeaderItems.map((text) => text.trim())).toEqual(
-      expectedHeaderItems
-    );
+    const actualHeaderItems = await homePage.getHeaderText();
+    expect(actualHeaderItems).toEqual(expectedHeaderItems);
   });
 });
