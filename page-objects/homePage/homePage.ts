@@ -48,16 +48,6 @@ export class HomePage {
     }
   }
 
-  async assertHotSellersTitle(expectedTitle: string) {
-    await this.hotSellersTitle.waitFor({ state: "visible" });
-    const actualTitle = await this.getHotSellersTitle();
-    if (expectedTitle?.trim() !== actualTitle?.trim()) {
-      throw new Error(
-        `Expected Hot Sellers title "${expectedTitle}", but got "${actualTitle}"`
-      );
-    }
-  }
-
   async assertHotSellersProductsCount(expectedCount: number) {
     await this.hotSellersProductsBlockList.waitFor({ state: "visible" });
     const actualCount = await this.hotSellersProductsItems.count();
@@ -83,18 +73,9 @@ export class HomePage {
       }
     }
   }
-  async assertHeaderText(expectedText: string[]) {
+  async getHeaderText(): Promise<string[]> {
     await this.headerText.first().waitFor({ state: "visible" });
     const actualItems = await this.headerText.allTextContents();
-    const normalizedItems = actualItems.map((item) => item.trim());
-    for (const expected of expectedText) {
-      if (!normalizedItems.includes(expected)) {
-        throw new Error(
-          `Expected header item "${expected}" not found in ${JSON.stringify(
-            normalizedItems
-          )}`
-        );
-      }
-    }
+    return actualItems.map((item) => item.trim());
   }
 }
